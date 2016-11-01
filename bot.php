@@ -76,7 +76,7 @@ function translate($text)
 	    }
 	}
 	else
-	    $result = "UNKNOW ERROR";
+	    $result = $url;
 
 	return $result;
 }
