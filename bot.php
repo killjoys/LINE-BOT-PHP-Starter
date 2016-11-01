@@ -3,6 +3,9 @@
 
 $access_token = 'AYiADvPjYOy2x6IIf8u0uwvlQiG3lsURLeO6mAMXB9mmwjVeZgyVPfD0j/Dt3onHYCXs9dzCflr6yOhCxTy3J6aPuNi6b+cXBK0Y2y5YTJM1H6pFdpUNM1Ut+JpmfpHLImA4hTGj6gsYThKa4JbYtQdB04t89/1O/w1cDnyilFU=';
 
+
+
+
 // Get POST body content
 $content = file_get_contents('php://input');
 // Parse JSON
@@ -18,27 +21,12 @@ if (!is_null($events['events'])) {
 			// Get replyToken
 			$replyToken = $event['replyToken'];
 
-			$type = checkQuestion($text);
-
-			$answer = "hi";
-
-			// if($type == 'translate'){
-			// 	$vocab = preg_replace("/[^a-zA-Z ]+/", "", $text);
-			// 	$answer = translate($vocab);
-			// }
-			// else if($type == 'calculate'){
-
-			// 	$answer = eval('return '.$text.';');
-
-			// }
-			// else{
-			// 	$answer = "I don't understand what you said";
-			// }
+			
 
 			// Build message to reply back
 			$messages = [
 				'type' => 'text',
-				'text' => $answer;
+				'text' => translate($text) 
 			];
 
 			// Make a POST Request to Messaging API to reply to sender
@@ -66,47 +54,47 @@ if (!is_null($events['events'])) {
 echo "OK";
 
 
-		function checkQuestion($text){
+function checkQuestion($text){
 
-		if (strpos($text, 'แปลว่า') !== false) {
-		    return 'translate';
-		}
-		else if (preg_match('/[0-9]+/', $text))
-		{
-		    return 'calculate';
-		}
-		else{
-			return 'null';
-		}
+	if (strpos($text, 'แปลว่า') !== false) {
+	    return 'translate';
+	}
+	else if (preg_match('/[0-9]+/', $text))
+	{
+	    return 'calculate';
+	}
+	else{
+		return 'null';
+	}
 
-		}
+}
 
 
-		function translate($text)
-		{     
-		$source="en";
-		$target="th";
-		$api_key = 'AIzaSyCSRoZPuTGPX2VIX7CnCaOPn6ar2Kif6u0';
+function translate($text)
+{     
+	$source="en";
+	$target="th";
+	$api_key = 'AIzaSyCSRoZPuTGPX2VIX7CnCaOPn6ar2Kif6u0';
 
-		$url = 'https://www.googleapis.com/language/translate/v2?key=' . $api_key . '&q=' . rawurlencode($text);
-		$url .= '&target='.$target;
-		$url .= '&source='.$source;
-		 
-		$response = file_get_contents($url);
-		$obj =json_decode($response,true);
-		if($obj != null)
-		{
-		    if(isset($obj['error']))
-		    {
-		        $result  = 'Error';
-		    }
-		    else
-		    {
-		        $result = $obj['data']['translations'][0]['translatedText'];
-		    }
-		}
-		else
-		    $result = $url;
+	$url = 'https://www.googleapis.com/language/translate/v2?key=' . $api_key . '&q=' . rawurlencode($text);
+	$url .= '&target='.$target;
+	$url .= '&source='.$source;
+	 
+	$response = file_get_contents($url);
+	$obj =json_decode($response,true);
+	if($obj != null)
+	{
+	    if(isset($obj['error']))
+	    {
+	        $result  = 'Error';
+	    }
+	    else
+	    {
+	        $result = $obj['data']['translations'][0]['translatedText'];
+	    }
+	}
+	else
+	    $result = $url;
 
-		return $result;
-		}
+	return $result;
+}
