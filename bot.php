@@ -1,6 +1,5 @@
 <?php
 
-$api_key = 'AIzaSyCSRoZPuTGPX2VIX7CnCaOPn6ar2Kif6u0';
 
 $access_token = 'AYiADvPjYOy2x6IIf8u0uwvlQiG3lsURLeO6mAMXB9mmwjVeZgyVPfD0j/Dt3onHYCXs9dzCflr6yOhCxTy3J6aPuNi6b+cXBK0Y2y5YTJM1H6pFdpUNM1Ut+JpmfpHLImA4hTGj6gsYThKa4JbYtQdB04t89/1O/w1cDnyilFU=';
 
@@ -57,6 +56,7 @@ function translate($text)
 {     
 	$source="en";
 	$target="th";
+	$api_key = 'AIzaSyCSRoZPuTGPX2VIX7CnCaOPn6ar2Kif6u0';
 
 	$url = 'https://www.googleapis.com/language/translate/v2?key=' . $api_key . '&q=' . rawurlencode($text);
 	$url .= '&target='.$target;
