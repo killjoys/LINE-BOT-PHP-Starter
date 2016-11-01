@@ -21,7 +21,7 @@ if (!is_null($events['events'])) {
 			// Get replyToken
 			$replyToken = $event['replyToken'];
 
-			
+
 
 			// Build message to reply back
 			$messages = [
@@ -76,7 +76,9 @@ function translate($text)
 	$target="th";
 	$api_key = 'AIzaSyCSRoZPuTGPX2VIX7CnCaOPn6ar2Kif6u0';
 
-	$url = 'https://www.googleapis.com/language/translate/v2?key=' . $api_key . '&q=' . rawurlencode($text);
+	$vocab = preg_replace("/[^a-zA-Z ]+/", "", $text);
+
+	$url = 'https://www.googleapis.com/language/translate/v2?key=' . $api_key . '&q=' . rawurlencode($vocab);
 	$url .= '&target='.$target;
 	$url .= '&source='.$source;
 	 
