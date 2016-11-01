@@ -6,33 +6,6 @@ $access_token = 'AYiADvPjYOy2x6IIf8u0uwvlQiG3lsURLeO6mAMXB9mmwjVeZgyVPfD0j/Dt3on
 
 
 
-function translate($text)
-{     
-	$source="en";
-	$target="th";
-
-	$url = 'https://www.googleapis.com/language/translate/v2?key=' . $api_key . '&q=' . rawurlencode($text);
-	$url .= '&target='.$target;
-	$url .= '&source='.$source;
-	 
-	$response = file_get_contents($url);
-	$obj =json_decode($response,true);
-	if($obj != null)
-	{
-	    if(isset($obj['error']))
-	    {
-	        $result  = 'Error';
-	    }
-	    else
-	    {
-	        $result = $obj['data']['translations'][0]['translatedText'];
-	    }
-	}
-	else
-	    $result = "UNKNOW ERROR";
-
-	return $result;
-}
 
 // Get POST body content
 $content = file_get_contents('php://input');
@@ -78,3 +51,32 @@ if (!is_null($events['events'])) {
 	}
 }
 echo "OK";
+
+
+function translate($text)
+{     
+	$source="en";
+	$target="th";
+
+	$url = 'https://www.googleapis.com/language/translate/v2?key=' . $api_key . '&q=' . rawurlencode($text);
+	$url .= '&target='.$target;
+	$url .= '&source='.$source;
+	 
+	$response = file_get_contents($url);
+	$obj =json_decode($response,true);
+	if($obj != null)
+	{
+	    if(isset($obj['error']))
+	    {
+	        $result  = 'Error';
+	    }
+	    else
+	    {
+	        $result = $obj['data']['translations'][0]['translatedText'];
+	    }
+	}
+	else
+	    $result = "UNKNOW ERROR";
+
+	return $result;
+}
