@@ -25,7 +25,9 @@ if (!is_null($events['events'])) {
 				$answer = translate($vocab);
 			}
 			else if($type == 'calculate'){
-				$answer = preg_replace('/[0-9]+/', $text);
+
+				$answer = eval('return '.$text.';');
+
 			}
 			else{
 				$answer = "I don't understand what you said";
