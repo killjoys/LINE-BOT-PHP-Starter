@@ -21,12 +21,29 @@ if (!is_null($events['events'])) {
 			// Get replyToken
 			$replyToken = $event['replyToken'];
 
+			$type = checkQuestion($text);
+			echo $type;
+
+			if($type == 'translate'){
+				$vocab = preg_replace("/[^a-zA-Z ]+/", "", $text);
+				$answer = translate($vocab);
+			}
+			else if($type == 'calculate'){
+
+				$answer = eval('return '.$text.';');
+
+			}
+			else{
+				$answer = "I don't understand what you said";
+			}
+			echo $answer;
+
 
 
 			// Build message to reply back
 			$messages = [
 				'type' => 'text',
-				'text' => translate($text) 
+				'text' => $answer
 			];
 
 			// Make a POST Request to Messaging API to reply to sender
@@ -76,9 +93,8 @@ function translate($text)
 	$target="th";
 	$api_key = 'AIzaSyCSRoZPuTGPX2VIX7CnCaOPn6ar2Kif6u0';
 
-	$vocab = preg_replace("/[^a-zA-Z ]+/", "", $text);
 
-	$url = 'https://www.googleapis.com/language/translate/v2?key=' . $api_key . '&q=' . rawurlencode($vocab);
+	$url = 'https://www.googleapis.com/language/translate/v2?key=' . $api_key . '&q=' . rawurlencode($text);
 	$url .= '&target='.$target;
 	$url .= '&source='.$source;
 	 
